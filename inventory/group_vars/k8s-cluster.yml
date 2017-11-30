@@ -67,7 +67,7 @@ kube_users:
 
 # Choose network plugin (calico, weave or flannel)
 # Can also be set to 'cloud', which lets the cloud provider setup appropriate routing
-kube_network_plugin: calico
+kube_network_plugin: flannel
 
 # weave's network password for encryption
 # if null then no network encryption
@@ -90,12 +90,12 @@ weave_peers: uninitialized
 enable_network_policy: false
 
 # Kubernetes internal network for services, unused block of space.
-kube_service_addresses: 10.233.0.0/18
+kube_service_addresses: 172.18.0.0/18
 
 # internal network. When used, it will assign IP
 # addresses from this range to individual pods.
 # This network must be unused in your network infrastructure!
-kube_pods_subnet: 10.233.64.0/18
+kube_pods_subnet: 172.19.0.0/18
 
 # internal network node size allocation (optional). This is the size allocated
 # to each node on your network.  With these defaults you should have
@@ -109,7 +109,7 @@ kube_apiserver_insecure_port: 8080 # (http)
 
 # DNS configuration.
 # Kubernetes cluster name, also will be used as DNS domain
-cluster_name: cluster.local
+cluster_name: heptagram.local
 # Subdomains of DNS domain to be resolved via /etc/resolv.conf for hostnet pods
 ndots: 2
 # Can be dnsmasq_kubedns, kubedns or none
@@ -131,7 +131,7 @@ docker_daemon_graph: "/var/lib/docker"
 ## An obvious use case is allowing insecure-registry access
 ## to self hosted registries like so:
 
-docker_options: "--insecure-registry={{ kube_service_addresses }} --graph={{ docker_daemon_graph }}  {{ docker_log_opts }}"
+docker_options: "--registry-mirror=https://iusfdkrx.mirror.aliyuncs.com --insecure-registry={{ kube_service_addresses }} --graph={{ docker_daemon_graph }}  {{ docker_log_opts }}"
 docker_bin_dir: "/usr/bin"
 
 # Settings for containerized control plane (etcd/kubelet/secrets)
@@ -144,7 +144,7 @@ helm_deployment_type: docker
 k8s_image_pull_policy: IfNotPresent
 
 # Kubernetes dashboard (available at http://first_master:6443/ui by default)
-dashboard_enabled: true
+dashboard_enabled: false
 
 # Monitoring apps for k8s
 efk_enabled: false
